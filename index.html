@@ -25,41 +25,60 @@
   var car2 = {
     x: 200,
     y: 200,
-    speed: 3,
+    speed: 10,
     width: 40,
     height: 20,
     color: "blue"
   };
 
-  // define the update function
-  function update() {
-    // check if the left or right arrow key is pressed for car1
-    if (input.left) {
-      // move car1 left
-      car1.x -= car1.speed;
-    } else if (input.right) {
-      // move car1 right
-      car1.x += car1.speed;
-    }
+// define the update function
+function update() {
+  // define the direction of car1
+  var direction = {
+    x: 0,
+    y: 0
+  };
 
-    // check if the up or down arrow key is pressed for car1
-    if (input.up) {
-      // move car1 up
-      car1.y -= car1.speed;
-    } else if (input.down) {
-      // move car1 down
-      car1.y += car1.speed;
-    }
-
-    // move car2 randomly
-    car2.x += Math.random() * 2 - 1;
-    car2.y += Math.random() * 2 - 1;
-
-    // if car1 goes off the screen, move it back to the left
-    if (car1.x > canvas.width) {
-      car1.x = -car1.width;
-    }
+  // check if the left or right arrow key is pressed for car1
+  if (input.left) {
+    // move car1 left
+    direction.x -= 1;
+  } else if (input.right) {
+    // move car1 right
+    direction.x += 1;
   }
+
+  // check if the up or down arrow key is pressed for car1
+  if (input.up) {
+    // move car1 up
+    direction.y -= 1;
+  } else if (input.down) {
+    // move car1 down
+    direction.y += 1;
+  }
+
+  // move car1 in the defined direction
+  car1.x += direction.x * car1.speed;
+  car1.y += direction.y * car1.speed;
+
+  // move car2 randomly
+  car2.x += Math.random() * 2 - 1;
+  car2.y += Math.random() * 2 - 1;
+
+  // check if the cars collide
+  if (car1.x < car2.x + car2.width &&
+      car1.x + car1.width > car2.x &&
+      car1.y < car2.y + car2.height &&
+      car1.y + car1.height > car2.y) {
+    // restart the game loop
+    gameLoop();
+  }
+
+  // if car1 goes off the screen, move it back to the left
+  if (car1.x > canvas.width) {
+    car1.x = -car1.width;
+  }
+}
 
   // define the draw function
 function draw() {
@@ -75,8 +94,26 @@ function draw() {
   ctx.fillRect(car2.x, car2.y, car2.width, car2.height);
 }
 
+  // define the reset function
+  // i needed to reset because the cars get faster each time the game loop starts
+    function reset(){
+      // reset the positions of the cars
+      car1.x = 100;
+      car1.y = 100;
+      car2.x = 200;
+      car2.y = 200;
+
+      // reset the speeds of the cars
+      car1.speed = 5;
+      car2.speed = 3;
+}
+
     // define the main game loop
     function gameLoop() {
+    // reset the game to its original state
+    reset();
+
+    // update and draw the cars
       update();
       draw();
 
