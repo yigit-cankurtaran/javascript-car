@@ -4,57 +4,76 @@
 </head>
 <body>
   <canvas id="game" width="800" height="600"></canvas>
+
   <script>
-    // get the canvas element
-    var canvas = document.getElementById("game");
-    // get the drawing context
-    var ctx = canvas.getContext("2d");
+  // get the canvas element
+  var canvas = document.getElementById("game");
+  // get the drawing context
+  var ctx = canvas.getContext("2d");
 
-    // define the car object
-    var car = {
-      x: 100,
-      y: 100,
-      speed: 5,
-      width: 50,
-      height: 30,
-      color: "red"
-    };
+  // define the first car object
+  var car1 = {
+    x: 100,
+    y: 100,
+    speed: 5,
+    width: 50,
+    height: 30,
+    color: "red"
+  };
 
-    // define the update function
-    function update() {
-      // check if the left or right arrow key is pressed
-      if (input.left) {
-        // move the car left
-        car.x -= car.speed;
-      } else if (input.right) {
-        // move the car right
-        car.x += car.speed;
-      }
+  // define the second car object
+  var car2 = {
+    x: 200,
+    y: 200,
+    speed: 3,
+    width: 40,
+    height: 20,
+    color: "blue"
+  };
 
-      // check if the up or down arrow key is pressed
-      if (input.up) {
-        // move the car up
-        car.y -= car.speed;
-      } else if (input.down) {
-        // move the car down
-        car.y += car.speed;
-      }
-
-      // if the car goes off the screen, move it back to the left
-      if (car.x > canvas.width) {
-        car.x = -car.width;
-      }
+  // define the update function
+  function update() {
+    // check if the left or right arrow key is pressed for car1
+    if (input.left) {
+      // move car1 left
+      car1.x -= car1.speed;
+    } else if (input.right) {
+      // move car1 right
+      car1.x += car1.speed;
     }
 
-    // define the draw function
-    function draw() {
-      // clear the screen
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // draw the car
-      ctx.fillStyle = car.color;
-      ctx.fillRect(car.x, car.y, car.width, car.height);
+    // check if the up or down arrow key is pressed for car1
+    if (input.up) {
+      // move car1 up
+      car1.y -= car1.speed;
+    } else if (input.down) {
+      // move car1 down
+      car1.y += car1.speed;
     }
+
+    // move car2 randomly
+    car2.x += Math.random() * 2 - 1;
+    car2.y += Math.random() * 2 - 1;
+
+    // if car1 goes off the screen, move it back to the left
+    if (car1.x > canvas.width) {
+      car1.x = -car1.width;
+    }
+  }
+
+  // define the draw function
+function draw() {
+  // clear the screen
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // draw car1
+  ctx.fillStyle = car1.color;
+  ctx.fillRect(car1.x, car1.y, car1.width, car1.height);
+
+  // draw car2
+  ctx.fillStyle = car2.color;
+  ctx.fillRect(car2.x, car2.y, car2.width, car2.height);
+}
 
     // define the main game loop
     function gameLoop() {
@@ -90,7 +109,7 @@
       }
     });
 
-// listen for keyup events
+    // listen for keyup events
       window.addEventListener("keyup", function(event) {
         if (event.keyCode === 37) {
         // left arrow key
