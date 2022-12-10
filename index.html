@@ -57,6 +57,16 @@ function update() {
     direction.y += 1;
   }
 
+    // check if car1 is about to move outside of the screen boundaries
+  if (car1.x + direction.x * car1.speed < 0 ||
+      car1.x + direction.x * car1.speed + car1.width > canvas.width ||
+      car1.y + direction.y * car1.speed < 0 ||
+      car1.y + direction.y * car1.speed + car1.height > canvas.height) {
+    // prevent car1 from moving further in that direction
+    direction.x = 0;
+    direction.y = 0;
+  }
+
   // move car1 in the defined direction
   car1.x += direction.x * car1.speed;
   car1.y += direction.y * car1.speed;
@@ -64,6 +74,16 @@ function update() {
   // move car2 randomly
   car2.x += Math.random() * 2 - 1;
   car2.y += Math.random() * 2 - 1;
+
+    // check if car2 is about to move outside of the screen boundaries
+  if (car2.x < 0 ||
+      car2.x + car2.width > canvas.width ||
+      car2.y < 0 ||
+      car2.y + car2.height > canvas.height) {
+    // prevent car2 from moving further in that direction
+    car2.x -= Math.random() * 2 - 1;
+    car2.y -= Math.random() * 2 - 1;
+  }
 
   // check if the cars collide
   if (car1.x < car2.x + car2.width &&
@@ -97,12 +117,6 @@ function draw() {
   // define the reset function
   // i needed to reset because the cars get faster each time the game loop starts
     function reset(){
-      // reset the positions of the cars
-      car1.x = 100;
-      car1.y = 100;
-      car2.x = 200;
-      car2.y = 200;
-
       // reset the speeds of the cars
       car1.speed = 5;
       car2.speed = 3;
@@ -110,12 +124,13 @@ function draw() {
 
     // define the main game loop
     function gameLoop() {
-    // reset the game to its original state
-    reset();
 
     // update and draw the cars
       update();
       draw();
+
+    // reset the game to its original state
+      reset();
 
       // request the next frame
       requestAnimationFrame(gameLoop);
