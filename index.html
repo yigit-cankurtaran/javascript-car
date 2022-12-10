@@ -3,7 +3,6 @@
   <title>Car Game</title>
 </head>
 <body>
-  <!-- create a canvas element to draw on -->
   <canvas id="game" width="800" height="600"></canvas>
   <script>
     // get the canvas element
@@ -13,18 +12,24 @@
 
     // define the car object
     var car = {
-      x: 100, // starting x coordinate
-      y: 100, // starting y coordinate
-      speed: 5, // speed in pixels per frame
-      width: 50, // width in pixels
-      height: 30, // height in pixels
-      color: "red" // color of the car
+      x: 100,
+      y: 100,
+      speed: 5,
+      width: 50,
+      height: 30,
+      color: "red"
     };
 
     // define the update function
     function update() {
-      // move the car forward
-      car.x += car.speed;
+      // check if the left or right arrow key is pressed
+      if (input.left) {
+        // move the car left
+        car.x -= car.speed;
+      } else if (input.right) {
+        // move the car right
+        car.x += car.speed;
+      }
 
       // if the car goes off the screen, move it back to the left
       if (car.x > canvas.width) {
@@ -50,6 +55,34 @@
       // request the next frame
       requestAnimationFrame(gameLoop);
     }
+
+    // define the input object
+    var input = {
+      left: false,
+      right: false
+    };
+
+    // listen for keydown events
+    window.addEventListener("keydown", function(event) {
+      if (event.keyCode === 37) {
+        // left arrow key
+        input.left = true;
+      } else if (event.keyCode === 39) {
+        // right arrow key
+        input.right = true;
+      }
+    });
+
+    // listen for keyup events
+    window.addEventListener("keyup", function(event) {
+      if (event.keyCode === 37) {
+        // left arrow key
+        input.left = false;
+      } else if (event.keyCode === 39) {
+        // right arrow key
+        input.right = false;
+      }
+    });
 
     // start the game loop
     gameLoop();
