@@ -15,7 +15,7 @@
   var car1 = {
     x: 100,
     y: 100,
-    speed: 5,
+    speed: 3,
     width: 50,
     height: 30,
     color: "red"
@@ -118,19 +118,19 @@ function draw() {
   // i needed to reset because the cars get faster each time the game loop starts
     function reset(){
       // reset the speeds of the cars
-      car1.speed = 5;
-      car2.speed = 3;
+      car1.speed = 3;
+      car2.speed = 10;
 }
 
     // define the main game loop
     function gameLoop() {
 
+    // reset the game to its original state
+      reset();
+
     // update and draw the cars
       update();
       draw();
-
-    // reset the game to its original state
-      reset();
 
       // request the next frame
       requestAnimationFrame(gameLoop);
